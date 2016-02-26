@@ -1,0 +1,13 @@
+base
+shiny
+slidify
+knitr
+ggplot2
+lattice
+caret
+AppliedPredictiveModeling
+rpart
+stabs
+mboost
+randomForest
+e1071

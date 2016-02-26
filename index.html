@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Exploring Machine Learning with Shiny</title>
+  <meta charset="utf-8">
+  <meta name="description" content="Exploring Machine Learning with Shiny">
+  <meta name="author" content="Jake Markman">
+  <meta name="generator" content="slidify" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/default.css" media="all" >
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/phone.css" 
+    media="only screen and (max-device-width: 480px)" >
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/slidify.css" >
+  <link rel="stylesheet" href="libraries/highlighters/highlight.js/css/tomorrow.css" />
+  <base target="_blank"> <!-- This amazingness opens all links in a new tab. -->  <link rel=stylesheet href="./assets/css/myClass.css"></link>
+<link rel=stylesheet href="./assets/css/ribbons.css"></link>
+
+  
+  <!-- Grab CDN jQuery, fall back to local if offline -->
+  <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.7.min.js"></script>
+  <script>window.jQuery || document.write('<script src="libraries/widgets/quiz/js/jquery.js"><\/script>')</script> 
+  <script data-main="libraries/frameworks/io2012/js/slides" 
+    src="libraries/frameworks/io2012/js/require-1.0.8.min.js">
+  </script>
+  
+  
+
+</head>
+<body style="opacity: 0">
+  <slides class="layout-widescreen">
+    
+    <!-- LOGO SLIDE -->
+        <slide class="title-slide segue nobackground">
+  <hgroup class="auto-fadein">
+    <h1>Exploring Machine Learning with Shiny</h1>
+    <h2></h2>
+    <p>Jake Markman<br/>Project for Developing Data Products</p>
+  </hgroup>
+  <article></article>  
+</slide>
+    
+
+    <!-- SLIDES -->
+    <slide class="Class" id="slide-1" style="background:;">
+  <hgroup>
+    <h2>A <a href="http://www.shinyapps.io/">shiny</a> app for exploring machine learning</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li> The app can be found <a href="https://jmmark.shinyapps.io/exploreML/">here</a><br></li>
+<li> The user can build different machine learning models on three built-in datasets<br></li>
+<li> Model training is done using the &#39;caret&#39; package in R<br></li>
+<li> Inputs are constrained and documented so user can<br>
+
+<ul>
+<li> Edit training choices and see the impact</li>
+<li> Not be overwhelmed by the available choices</li>
+</ul></li>
+<li> Model results are shown to the user in real-time<br></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="Class" id="slide-2" style="background:;">
+  <hgroup>
+    <h2>Introducing novices to machine learning</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li> Machine learning is more useful and talked about now than ever</li>
+<li> More and more people are becoming interested</li>
+<li> Many resources available describing it, but hands-on exploration can be difficult
+
+<ul>
+<li> Knowedlge of coding</li>
+<li> Finding data</li>
+<li> Understanding outputs<br></li>
+<li> Time required<br></li>
+</ul></li>
+<li> With this app, novices can learn by playing with nothing more than a web browser</li>
+<li> The app handles all of the data processing, data partitioning, model training, and generating outputs so the user can immediately see the impact of their choices</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="smallCol" id="slide-3" style="background:;">
+  <hgroup>
+    <h2>Inputs and outputs offer many options, but for simplicity are not exhausive</h2>
+  </hgroup>
+  <article data-timings="">
+    
+<div style='float:left;width:48%;'  >
+  <h3>Inputs</h3>
+
+<ul>
+<li> Dataset
+
+<ul>
+<li> 3 built-in binomial classification datasets</li>
+<li> Alzheimer, German Credit, or Cell Segmntation</li>
+</ul></li>
+<li> Model Method
+
+<ul>
+<li> 4 choices--2 linear, 2 tree</li>
+<li> GLM, Boosted GLM, Tree, Random Forest</li>
+</ul></li>
+<li> Pre-processing predictors (PCA only)</li>
+<li> Resampling / Cross-Validation method
+
+<ul>
+<li> Bootstrap, K-Fold CV, or Repeat K-Fold</li>
+<li> Number of resamples</li>
+<li> Repeat ed resamples, if needed</li>
+</ul></li>
+<li> Fraction of data to allocate to train vs test</li>
+<li> Random Seed</li>
+</ul>
+
+</div>
+<div style='float:right;width:48%;font-size:small'>
+  <h3>Outputs</h3>
+
+<ul>
+<li> Basic Summary Info
+
+<ul>
+<li> Training time</li>
+<li> Estimated trainning out-of-sample accuracy and kappa</li>
+<li> Actual test accuracy and kappa</li>
+</ul></li>
+<li> R output of trained model</li>
+<li> Graph of accuracy and kappa from resamples</li>
+<li> Confusion matrix on the test set</li>
+</ul>
+
+</div>
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="Class" id="slide-4" style="background:;">
+  <hgroup>
+    <h2>Still, the app is flexible enough for deeper insights</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>For example, the user might find that more complex models (higher train times) do not always result in better performance
+<img src="assets/fig/unnamed-chunk-1-1.png" title="plot of chunk unnamed-chunk-1" alt="plot of chunk unnamed-chunk-1" style="display: block; margin: auto;" /></p>
+
+<p style="font-size:12px">Note, this is not a direct output from the app but rather a summary generated by R of some models that can be explored using the app</p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+    <slide class="backdrop"></slide>
+  </slides>
+  <div class="pagination pagination-small" id='io2012-ptoc' style="display:none;">
+    <ul>
+      <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=1 title='A <a href="http://www.shinyapps.io/">shiny</a> app for exploring machine learning'>
+         1
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=2 title='Introducing novices to machine learning'>
+         2
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=3 title='Inputs and outputs offer many options, but for simplicity are not exhausive'>
+         3
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=4 title='Still, the app is flexible enough for deeper insights'>
+         4
+      </a>
+    </li>
+  </ul>
+  </div>  <!--[if IE]>
+    <script 
+      src="http://ajax.googleapis.com/ajax/libs/chrome-frame/1/CFInstall.min.js">  
+    </script>
+    <script>CFInstall.check({mode: 'overlay'});</script>
+  <![endif]-->
+</body>
+  <!-- Load Javascripts for Widgets -->
+  
+  <!-- LOAD HIGHLIGHTER JS FILES -->
+  <script src="libraries/highlighters/highlight.js/highlight.pack.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+  <!-- DONE LOADING HIGHLIGHTER JS FILES -->
+   
+  </html>

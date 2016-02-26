@@ -1,0 +1,174 @@
+---
+title       : Exploring Machine Learning with Shiny
+subtitle    : 
+author      : Jake Markman
+job         : Project for Developing Data Products
+framework   : io2012        # {io2012, html5slides, shower, dzslides, ...}
+highlighter : highlight.js  # {highlight.js, prettify, highlight}
+hitheme     : tomorrow      # 
+widgets     : []            # {mathjax, quiz, bootstrap}
+mode        : selfcontained # {standalone, draft}
+knit        : slidify::knit2slides
+--- .Class
+
+## A [shiny](http://www.shinyapps.io/) app for exploring machine learning  
+
+-  The app can be found [here](https://jmmark.shinyapps.io/exploreML/)  
+-  The user can build different machine learning models on three built-in datasets  
+-  Model training is done using the 'caret' package in R  
+-  Inputs are constrained and documented so user can  
+  -  Edit training choices and see the impact
+  -  Not be overwhelmed by the available choices
+-  Model results are shown to the user in real-time  
+
+
+
+--- .Class
+
+## Introducing novices to machine learning  
+
+-  Machine learning is more useful and talked about now than ever
+-  More and more people are becoming interested
+-  Many resources available describing it, but hands-on exploration can be difficult
+  -  Knowedlge of coding
+  -  Finding data
+  -  Understanding outputs  
+  -  Time required  
+-  With this app, novices can learn by playing with nothing more than a web browser
+-  The app handles all of the data processing, data partitioning, model training, and generating outputs so the user can immediately see the impact of their choices
+
+---  &twocolB .smallCol
+
+## Inputs and outputs offer many options, but for simplicity are not exhausive  
+
+***  =left
+
+ 
+### Inputs
+
+-  Dataset
+  -  3 built-in binomial classification datasets
+  -  Alzheimer, German Credit, or Cell Segmntation
+-  Model Method
+  -  4 choices--2 linear, 2 tree
+  -  GLM, Boosted GLM, Tree, Random Forest
+-  Pre-processing predictors (PCA only)
+-  Resampling / Cross-Validation method
+  -  Bootstrap, K-Fold CV, or Repeat K-Fold
+  -  Number of resamples
+  -  Repeat ed resamples, if needed
+-  Fraction of data to allocate to train vs test
+-  Random Seed
+
+***  =right
+  
+### Outputs
+
+-  Basic Summary Info
+  -  Training time
+  -  Estimated trainning out-of-sample accuracy and kappa
+  -  Actual test accuracy and kappa
+-  R output of trained model
+-  Graph of accuracy and kappa from resamples
+-  Confusion matrix on the test set
+
+--- .Class
+
+## Still, the app is flexible enough for deeper insights  
+
+For example, the user might find that more complex models (higher train times) do not always result in better performance
+```{r echo=FALSE, warning=FALSE, fig.width=8, fig.height=5, fig.align='center'}
+library(shiny)
+library(ggplot2)
+library(lattice)
+library(caret)
+library(AppliedPredictiveModeling)
+library(rpart)
+library(stabs)
+library(parallel)
+library(mboost)
+library(randomForest)
+library(e1071)
+
+data("GermanCredit")
+#sort out the factor data in germancredit
+
+for (x in names(GermanCredit)) {
+    if (length(unique(GermanCredit[,x]))==2) {
+        GermanCredit[,x] <- factor(GermanCredit[,x])
+    }
+}
+
+myTr <- trainControl(method="cv",number=10)
+set.seed(1416)
+inTrain <- createDataPartition(GermanCredit$Class,p=.7,list=FALSE)
+trainD <- GermanCredit[inTrain,]
+testD <- GermanCredit[-inTrain,]
+
+mdlGLM <- train(Class~.,
+                data=trainD,
+                method="glm",
+                family=binomial(),
+                trControl = myTr)
+
+mdlBoost <- train(Class~., 
+                data=trainD,
+                method="glmboost",
+                trControl = myTr)
+
+mdlTree <- train(Class~., 
+                data=trainD,
+                method="rpart",
+                trControl = myTr)
+
+mdlRF <- train(Class~., 
+                data=trainD,
+                method="rf",
+                trControl = myTr)
+
+cfGLM <- confusionMatrix( predict(mdlGLM, testD),testD$Class)
+cfBoost <- confusionMatrix( predict(mdlBoost, testD),testD$Class)
+cfTree <- confusionMatrix( predict(mdlTree, testD),testD$Class)
+cfRF <- confusionMatrix( predict(mdlRF, testD),testD$Class)
+
+Variable <- c("Accuracy","Kappa","Train Time")
+Units <- c("0 to 1","0 to 1","Seconds")
+GLMDF <- data.frame("Variable"=Variable, 
+                    "Units" = Units,
+                    "Values"=c(cfGLM$overall[[1]],
+                               cfGLM$overall[[2]],
+                               mdlGLM$times$everything[[3]]),
+                    "Model"=rep("GLM",3))
+
+BoostDF <- data.frame("Variable"=Variable, 
+                      "Units" = Units,
+                    "Values"=c(cfBoost$overall[[1]],
+                               cfBoost$overall[[2]],
+                               mdlBoost$times$everything[[3]]),
+                    "Model"=rep("GLM Boost",3))
+
+TreeDF <- data.frame("Variable"=Variable, 
+                     "Units" = Units,
+                    "Values"=c(cfTree$overall[[1]],
+                               cfTree$overall[[2]],
+                               mdlTree$times$everything[[3]]),
+                    "Model"=rep("Tree",3))
+
+RFDF <- data.frame("Variable"=Variable, 
+                   "Units" = Units,
+                    "Values"=c(cfRF$overall[[1]],
+                               cfRF$overall[[2]],
+                               mdlRF$times$everything[[3]]),
+                   "Model"=rep("Random Forest",3))
+
+plotDF <- rbind(GLMDF, BoostDF, TreeDF, RFDF)
+
+q <- ggplot(plotDF, aes(Model, Values,fill=Variable))
+q <- q + geom_bar(stat="identity", position="dodge")
+q <- q + facet_grid(Units~.,scales="free")
+q
+
+```
+
+<p style="font-size:12px">Note, this is not a direct output from the app but rather a summary generated by R of some models that can be explored using the app</p>
+
