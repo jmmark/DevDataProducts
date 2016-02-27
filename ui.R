@@ -17,10 +17,13 @@ shinyUI(fluidPage(
       with the controls where needed"),  
     
     p("Press the Go! button at the bottom and results will
-      be shown in the tabs to the right"),
+      be shown in the tabs to the right.  Several different types of results
+      are shown, including model training time and accuracy.  Explanations are
+      provided in the tab where needed.  Values will be blank or unititialized if a
+      model has not yet been run using the Go! button"),
     
     p("The server.R and ui.R files for this app can be found at ",
-      a("this github repo", href="https://github.com/jmmark/DevDataProducts.git")),
+      a("this github repo", href="https://github.com/jmmark/DevDataProducts.git", target="_blank")),
     
     sidebarPanel(h2("Controls"),
         selectInput("dataset","Choose Dataset:",
@@ -28,10 +31,10 @@ shinyUI(fluidPage(
                          "German Credit Data" = "gcred",
                          "Cell Body Segmentation" = "cellseg")),
         helpText("More info on",
-                 a(" Alzheimer Data,",href="http://journals.plos.org/plosone/article?id=10.1371/journal.pone.0018850#s5"),
-                 a(" German Credit Data,",href="http://topepo.github.io/caret/datasets.html"),
+                 a(" Alzheimer Data,",href="http://journals.plos.org/plosone/article?id=10.1371/journal.pone.0018850#s5", target="_blank"),
+                 a(" German Credit Data,",href="http://topepo.github.io/caret/datasets.html", target="_blank"),
                  "or",
-                 a(" Cell Body Segmentation.", href="http://topepo.github.io/caret/datasets.html")
+                 a(" Cell Body Segmentation.", href="http://topepo.github.io/caret/datasets.html", target="_blank")
         ),
         
         selectInput("mdltype","Choose Modeling Method:",
@@ -41,16 +44,16 @@ shinyUI(fluidPage(
                           "Random Forest" = "rf")),
         
         helpText("More info on",
-                 a(" GLM, ",href="https://en.wikipedia.org/wiki/Generalized_linear_model"),
-                 a(" Trees,",href="https://en.wikipedia.org/wiki/Decision_tree_learning"),
-                 a(" Boosting,",href="https://en.wikipedia.org/wiki/Boosting_%28machine_learning%29"),
+                 a(" GLM, ",href="https://en.wikipedia.org/wiki/Generalized_linear_model", target="_blank"),
+                 a(" Trees,",href="https://en.wikipedia.org/wiki/Decision_tree_learning", target="_blank"),
+                 a(" Boosting,",href="https://en.wikipedia.org/wiki/Boosting_%28machine_learning%29", target="_blank"),
                  "or",
-                 a(" Random Forest.",href="https://en.wikipedia.org/wiki/Random_forest")),
+                 a(" Random Forest.",href="https://en.wikipedia.org/wiki/Random_forest", target="_blank")),
         checkboxInput("preproc", "Pre-process predictors"),
         
         helpText("If checked, pre-process predictors using ",
                  a("Principal Component Analysis",
-                   href="https://en.wikipedia.org/wiki/Principal_component_analysis")),
+                   href="https://en.wikipedia.org/wiki/Principal_component_analysis", target="_blank")),
         
         selectInput("trainMethod","Choose Resampling Method:",
                      list("Bootstrapping"="boot",
@@ -58,7 +61,7 @@ shinyUI(fluidPage(
                           "Repeated K-Folds" = "repeatedcv"),
                     selected="cv"),
         
-        helpText(a("More info",href="http://appliedpredictivemodeling.com/blog/2014/11/27/08ks7leh0zof45zpf5vqe56d1sahb0"),
+        helpText(a("More info",href="http://appliedpredictivemodeling.com/blog/2014/11/27/08ks7leh0zof45zpf5vqe56d1sahb0", target="_blank"),
                  " on cross-validation vs bootstrap resampling"),
         
         sliderInput("resno","Choose Number of Resamples",
@@ -95,7 +98,7 @@ shinyUI(fluidPage(
                     h4("Estimated out-of-sample prediction accuracy:"),
                     textOutput("cvAccEst"),
                     h4("Estimated out-of-sample prediction ",
-                       a("kappa:",href="https://en.wikipedia.org/wiki/Cohen's_kappa")),
+                       a("kappa:",href="https://en.wikipedia.org/wiki/Cohen's_kappa", target="_blank")),
                     textOutput("cvKappaEst"),
                     h4("Prediction accuracy on the test set:"),
                     textOutput("testAcc"),
@@ -114,7 +117,7 @@ shinyUI(fluidPage(
             ),
             tabPanel("Test Results",
                      h5(a("Confusion Matrix", 
-                          href="https://en.wikipedia.org/wiki/Confusion_matrix"),
+                          href="https://en.wikipedia.org/wiki/Confusion_matrix", target="_blank"),
                         "showing the predicted vs actual classification in the test set"),
                 verbatimTextOutput("cm")
             )
